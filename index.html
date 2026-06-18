@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="RhythmX — A premium music player with pure liquid glass design, dynamic backgrounds, playlist management, and smooth animations."
+    />
+    <title>RhythmX — Premium Music Player</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=1.3" />
+  </head>
+  <body>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         DYNAMIC BACKGROUND LAYER
+         Changes color based on the current song's artwork palette
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="bg-dynamic" id="bgDynamic"></div>
+    <div class="bg-noise"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         APP WRAPPER
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="app-wrapper">
+
+      <!-- ─── TOP NAVIGATION BAR ─── -->
+      <header class="topbar">
+        <div class="topbar__logo">
+          <i class="fa-solid fa-waveform-lines"></i>
+          <span>RhythmX</span>
+        </div>
+        <nav class="topbar__nav">
+          <button class="nav-btn active" id="navMusic" aria-label="Music view">
+            <i class="fa-solid fa-music"></i>
+            <span>Music</span>
+          </button>
+          <button class="nav-btn" id="navPlaylist" aria-label="Playlist view">
+            <i class="fa-solid fa-list-music"></i>
+            <span>Playlist</span>
+          </button>
+        </nav>
+        <div class="topbar__right">
+          <button class="icon-btn" id="btnEqualizer" aria-label="Equalizer" title="Equalizer">
+            <i class="fa-solid fa-sliders"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- ─── MAIN CONTENT ─── -->
+      <main class="main-content">
+
+        <!-- ══════════════════════════════════
+             LEFT PANEL — PLAYER CARD
+        ══════════════════════════════════ -->
+        <section class="player-card glass" id="playerCard" aria-label="Music Player">
+
+          <!-- Decorative animated blobs -->
+          <div class="blob blob--1"></div>
+          <div class="blob blob--2"></div>
+
+          <!-- ── Song Info Header ── -->
+          <div class="song-header">
+            <div class="song-meta">
+              <div class="song-badge">
+                <span class="badge-dot"></span>
+                Now Playing
+              </div>
+              <button class="icon-btn" id="btnFavorite" aria-label="Add to favorites" title="Favorite">
+                <i class="fa-regular fa-heart" id="heartIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Album Artwork ── -->
+          <div class="artwork-container" id="artworkContainer">
+            <div class="artwork-ring artwork-ring--outer"></div>
+            <div class="artwork-ring artwork-ring--inner"></div>
+            <div class="artwork-wrapper" id="artworkWrapper">
+              <img
+                src="assets/album1.png"
+                alt="Album Cover"
+                class="artwork-img"
+                id="artworkImg"
+              />
+            </div>
+            <!-- Vinyl disk center dot -->
+            <div class="artwork-center-dot"></div>
+          </div>
+
+          <!-- ── Song Title & Artist ── -->
+          <div class="song-info">
+            <h1 class="song-title" id="songTitle">Midnight Drift</h1>
+            <p class="song-artist" id="songArtist">Echo Collective</p>
+          </div>
+
+          <!-- ── Progress Bar ── -->
+          <div class="progress-section">
+            <div class="time-display">
+              <span class="time-current" id="timeCurrent">0:00</span>
+              <span class="time-total" id="timeTotal">0:00</span>
+            </div>
+            <div class="progress-bar-container" id="progressContainer" role="slider" aria-label="Song progress" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+                <div class="progress-thumb" id="progressThumb"></div>
+              </div>
+              <!-- Buffer bar for visual polish -->
+              <div class="progress-buffer" id="progressBuffer"></div>
+            </div>
+          </div>
+
+          <!-- ── Playback Controls ── -->
+          <div class="controls">
+            <!-- Shuffle -->
+            <button class="ctrl-btn ctrl-btn--small" id="btnShuffle" aria-label="Shuffle" title="Shuffle">
+              <i class="fa-solid fa-shuffle"></i>
+            </button>
+
+            <!-- Previous -->
+            <button class="ctrl-btn ctrl-btn--medium" id="btnPrev" aria-label="Previous song" title="Previous">
+              <i class="fa-solid fa-backward-step"></i>
+            </button>
+
+            <!-- Play / Pause -->
+            <button class="ctrl-btn ctrl-btn--play" id="btnPlay" aria-label="Play or pause" title="Play/Pause">
+              <div class="play-ripple"></div>
+              <i class="fa-solid fa-play" id="playIcon"></i>
+            </button>
+
+            <!-- Next -->
+            <button class="ctrl-btn ctrl-btn--medium" id="btnNext" aria-label="Next song" title="Next">
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+
+            <!-- Repeat -->
+            <button class="ctrl-btn ctrl-btn--small" id="btnRepeat" aria-label="Repeat" title="Repeat">
+              <i class="fa-solid fa-repeat"></i>
+            </button>
+          </div>
+
+          <!-- ── Volume Control ── -->
+          <div class="volume-section">
+            <button class="icon-btn volume-mute-btn" id="btnMute" aria-label="Mute" title="Mute/Unmute">
+              <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+            </button>
+            <div class="volume-slider-wrapper">
+              <input
+                type="range"
+                class="volume-slider"
+                id="volumeSlider"
+                min="0"
+                max="100"
+                value="75"
+                aria-label="Volume"
+              />
+              <div class="volume-fill" id="volumeFill"></div>
+            </div>
+            <span class="volume-label" id="volumeLabel">75%</span>
+          </div>
+
+          <!-- Hidden Audio Element -->
+          <audio id="audioPlayer" preload="metadata"></audio>
+
+        </section><!-- /player-card -->
+
+        <!-- ══════════════════════════════════
+             RIGHT PANEL — PLAYLIST
+        ══════════════════════════════════ -->
+        <aside class="playlist-panel glass" id="playlistPanel" aria-label="Playlist">
+
+          <!-- Playlist Header -->
+          <div class="playlist-header">
+            <h2 class="playlist-title">
+              <i class="fa-solid fa-list-music"></i>
+              Queue
+            </h2>
+            <span class="playlist-count" id="playlistCount">5 songs</span>
+          </div>
+
+          <!-- Search Filter -->
+          <div class="playlist-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              class="playlist-search-input"
+              id="playlistSearch"
+              placeholder="Search songs..."
+              aria-label="Search playlist"
+            />
+          </div>
+
+          <!-- Playlist Items -->
+          <ul class="playlist-list" id="playlistList" role="list">
+            <!-- Populated by JavaScript -->
+          </ul>
+
+          <!-- Playlist Footer -->
+          <div class="playlist-footer">
+            <i class="fa-solid fa-waveform-lines"></i>
+            <span>RhythmX Player</span>
+          </div>
+
+        </aside><!-- /playlist-panel -->
+
+      </main><!-- /main-content -->
+    </div><!-- /app-wrapper -->
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TOAST NOTIFICATION
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="toast" id="toast" aria-live="polite">
+      <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+      <span id="toastMsg">Song added to favorites!</span>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+  </body>
+</html>
